@@ -15,7 +15,7 @@ This is a simple peer-to-peer chat application built using WebSockets, Express, 
 1.  Clone the repository:
 
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/hippymp/P2P-Chat-App.git
     ```
 
 2.  Navigate to the project directory:
