@@ -3,27 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P2P Chat Application</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Chat App</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.min.js" integrity="sha512-8ExARjWWkIllMlNzVg7JKq9RKWPlJABQUNq6YvAjE/HobctjH/NA+bSiDMDvouBVjp4Wwnf1VP1OEv7Zgjtuxw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src = "js/script.js"></script>
 </head>
 <body>
-    <div id="chat-container">
-        <h1>Welcome to the P2P Chat Application</h1>
-        <div id="chat-room">
-            <div id="messages"></div>
-            <input type="text" id="message-input" placeholder="Type your message here...">
-            <button id="send-button">Send</button>
-        </div>
+    <main>
+    <form class="form-join">
+        <input type="text" id="name" maxlength="8" placeholder="Enter your name" size="5" required>
+        <input type="text" id="room" placeholder="Enter room name" size="5" required>
+        <button id="join" type="sumbit">Join</button>
+    </form>
 
-        <div id="file-management">
-            <h2>File Management</h2>
-            <input type="file" id="file-input">
-            <button id="upload-button">Upload</button>
-            <div id="file-list">
-                <!-- File list will be displayed here -->
-            </div>
-        </div>
-    </div>
-    <script src="js/script.js"></script>
+    <form id="file-management">
+        <h2>File Share</h2>
+        <input type="file" id="file-input">
+    </form>
+
+    <ul class="chat-display"></ul>
+
+    <p class="user-list"></p>
+
+    <p class="room-list"></p>
+
+    <p class="activity"></p>
+
+    <form class="form-msg">
+        <input type="text" id="message" placeholder="Enter your message" spellcheck="true" required>
+        <button type="submit">Send</button>
+    </form>
+    
+    </main>
 </body>
 </html>
