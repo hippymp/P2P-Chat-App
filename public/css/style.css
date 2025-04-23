@@ -127,9 +127,25 @@ button {
     font-style: italic;
 }
 
-#file-management {
+.list-display {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
     display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    gap: .5rem;
+    justify-content: space-between;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: .5rem;
+    background-color: #f0f0f0;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    color: #000;
 }
