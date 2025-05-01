@@ -12,6 +12,7 @@ const ADMIN = "Admin"
 
 const app = express()
 
+app.use(express.json())
 app.use(express.static(path.join(__dirname, "public")))
 
 const expressServer = app.listen(PORT, () => {

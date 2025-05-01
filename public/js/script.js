@@ -8,6 +8,90 @@ const usersList = document.querySelector('.user-list')
 const roomList = document.querySelector('.room-list')
 const chatDisplay = document.querySelector('.chat-display')
 
+import nspell from 'https://cdn.skypack.dev/nspell'
+
+const affUrl = 'https://raw.githubusercontent.com/wooorm/dictionaries/main/dictionaries/en/index.aff';
+const dicUrl = 'https://raw.githubusercontent.com/wooorm/dictionaries/main/dictionaries/en/index.dic';
+
+
+let spell;
+
+async function loadDictionary() {
+    try {
+        const affResponse = await fetch(affUrl);
+        const dicResponse = await fetch(dicUrl);
+
+        const aff = await affResponse.text();
+        const dic = await dicResponse.text();
+
+        spell = nspell({ aff, dic });
+        console.log('Dictionary loaded successfully');
+    } catch (error) {
+        console.error('Error loading dictionary:', error);
+    }
+}
+
+loadDictionary();
+
+const suggestionsContainer = document.querySelector('#suggestions');
+
+msgInput.addEventListener("keydown", async (e) => {
+    if (!spell) return; // Wait until the dictionary is loaded
+
+    if (e.key !== " ") {
+        hideSuggestions();
+        return;
+    }
+
+    if (e.key === " ") {
+        const words = msgInput.value.split(" ");
+        const lastWord = words[words.length - 1].trim();
+
+        // Check if the word is valid using nspell
+        if (!spell.correct(lastWord)) {
+            const suggestions = spell.suggest(lastWord);
+
+            if (suggestions.length > 0) {
+                // Show suggestions
+                showSuggestions(suggestions, lastWord, words);
+            } else {
+                hideSuggestions();
+            }
+        } else {
+            hideSuggestions();
+        }
+    }
+});
+
+function showSuggestions(suggestions, lastWord, words) {
+    // Clear previous suggestions
+    suggestionsContainer.innerHTML = '';
+
+    // Populate suggestions
+    suggestions.forEach(suggestion => {
+        const button = document.createElement('button');
+        button.textContent = suggestion;
+        button.addEventListener('click', () => {
+            // Replace the last word with the selected suggestion
+            words[words.length - 1] = suggestion;
+            msgInput.value = words.join(" ") + " ";
+            hideSuggestions();
+        });
+        suggestionsContainer.appendChild(button);
+    });
+
+    // Position the suggestions container above the input field
+    const rect = msgInput.getBoundingClientRect();
+    const spacing = 17;
+    suggestionsContainer.style.top = `${rect.top + window.scrollY - rect.height - spacing}px`; // Above the input field
+    suggestionsContainer.style.left = `${rect.left + window.scrollX}px`;
+    suggestionsContainer.style.display = 'flex';
+}
+
+function hideSuggestions() {
+    suggestionsContainer.style.display = "none";
+}
+
 function sendMessage(e) {
     e.preventDefault()
     if (nameInput.value && msgInput.value && chatRoom.value) {

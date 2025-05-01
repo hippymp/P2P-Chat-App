@@ -149,3 +149,30 @@ input[type="file"] {
     cursor: pointer;
     color: #000;
 }
+
+.suggestions {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    max-width: 300px;
+    z-index: 1000;
+    display: none;
+    flex-direction: row;
+    gap: 0.5rem;
+    max-width: 100%;
+    overflow-x: auto;;
+}
+
+.suggestions button {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    text-align: left;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.suggestions button:hover {
+    background: #f0f0f0;
+}
