@@ -4,37 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat App</title>
+
+    <!-- Stylesheet -->
     <link href="css/style.css" rel="stylesheet" type="text/css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.min.js" integrity="sha512-8ExARjWWkIllMlNzVg7JKq9RKWPlJABQUNq6YvAjE/HobctjH/NA+bSiDMDvouBVjp4Wwnf1VP1OEv7Zgjtuxw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script defer type="module" src = "js/script.js"></script>
+
+    <!-- Socket.IO Library -->
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.min.js" 
+        integrity="sha512-8ExARjWWkIllMlNzVg7JKq9RKWPlJABQUNq6YvAjE/HobctjH/NA+bSiDMDvouBVjp4Wwnf1VP1OEv7Zgjtuxw==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer">
+    </script>
+
+    <!-- Main Script -->
+    <script defer type="module" src="js/script.js"></script>
 </head>
 <body>
     <main>
-    <form class="form-join">
-        <input type="text" id="name" maxlength="8" placeholder="Enter your name" size="5" required>
-        <input type="text" id="room" placeholder="Enter room name" size="5" required>
-        <button id="join" type="sumbit">Join</button>
-    </form>
+        <!-- Join Room Form -->
+        <form class="form-join">
+            <input 
+                type="text" 
+                id="name" 
+                maxlength="8" 
+                placeholder="Enter your name" 
+                size="5" 
+                required>
+            <input 
+                type="text" 
+                id="room" 
+                placeholder="Enter room name" 
+                size="5" 
+                required>
+            <button id="join" type="submit">Join</button>
+        </form>
 
-    <ul class="chat-display"></ul>
+        <!-- Chat Display -->
+        <ul class="chat-display"></ul>
 
-    <div class="list-display">
-        <p class="user-list"></p> 
-    
-        <p class="room-list"></p>
-    </div>
-    
-    <div id="suggestions" class="suggestions"></div>
+        <!-- User and Room Lists -->
+        <div class="list-display">
+            <p class="user-list"></p>
+            <p class="room-list"></p>
+        </div>
 
-    <p class="activity"></p>
+        <!-- Suggestions Box -->
+        <div id="suggestions" class="suggestions"></div>
 
-    <form class="form-msg">
-        <input type="text" id="message" placeholder="Enter your message" spellcheck="true" required>
-        <button type="submit">Send</button>
-        <label for="file-input" class="custom-file-upload">Upload a file</label>
-        <input type="file" id="file-input">
-    </form>
-    
+        <!-- Typing Activity -->
+        <p class="activity"></p>
+
+        <!-- Message Form -->
+        <form class="form-msg">
+            <input 
+                type="text" 
+                id="message" 
+                placeholder="Enter your message" 
+                spellcheck="true" 
+                required>
+            <button type="submit">Send</button>
+            <label for="file-input" class="custom-file-upload">Upload a file</label>
+            <input type="file" id="file-input">
+        </form>
     </main>
 </body>
 </html>
