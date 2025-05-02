@@ -26,9 +26,12 @@ const UsersState = {
 
 // Initialize Socket.IO
 const io = new Server(expressServer, {
-    cors: {
-        origin: process.env.NODE_ENV === "production" ? false : ["http://localhost:5501", "http://127.0.0.1:5501"]
-    }
+   cors: {
+         origin: '*',
+         methods: ['GET', 'POST'],
+         allowedHeaders: ['Content-Type'],
+         credentials: true
+   }
 });
 
 // Socket.IO connection
