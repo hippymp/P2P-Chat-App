@@ -145,6 +145,32 @@ function uploadFile(e) {
 }
 
 // Socket.IO Event Handlers
+
+function highlightText(text) {
+    const doc = nlp(text);
+
+    // Highlight names (proper nouns)
+    doc.match('#Person').terms().forEach(term => {
+        const word = term.text();
+        text = text.replace(
+            new RegExp(`\\b${word}\\b`, 'g'),
+            `<span class="highlight-name">${word}</span>`
+        );
+    });
+
+    // Highlight attributes (adjectives)
+    doc.match('#Adjective').terms().forEach(term => {
+        const word = term.text();
+        text = text.replace(
+            new RegExp(`\\b${word}\\b`, 'g'),
+            `<span class="highlight-attribute">${word}</span>`
+        );
+    });
+
+    return text;
+}
+
+
 socket.on("message", (data) => {
     activity.textContent = "";
     const { name, text, time, fileContent } = data;
@@ -156,7 +182,7 @@ socket.on("message", (data) => {
     if (name !== nameInput.value && name !== 'Admin') li.className = 'post post--left';
 
     // Highlight names and attributes
-    const highlightedText = text.replace(/(\b[A-Z][a-z]+\b)/g, '<span class="highlight-name">$1</span>');
+    const highlightedText = highlightText(text);
 
     if (fileContent) {
         li.innerHTML = `
@@ -227,3 +253,25 @@ function showRooms(rooms) {
         });
     }
 }
+
+
+// Focus Toggle 
+const focusToggle = document.getElementById('focus-toggle');
+
+function updateFocusButtonText(isOn) {
+    focusToggle.textContent = isOn ? 'Focus Mode: ON' : 'Focus Mode: OFF';
+}
+
+focusToggle.addEventListener('click', () => {
+    const isOn = document.body.classList.toggle('focus-mode');
+    localStorage.setItem('focusMode', isOn);
+    updateFocusButtonText(isOn);
+});
+
+// Set initial button state on load
+const storedFocus = localStorage.getItem('focusMode') === 'true';
+if (storedFocus) {
+    document.body.classList.add('focus-mode');
+}
+updateFocusButtonText(storedFocus);
+

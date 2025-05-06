@@ -3,14 +3,16 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-size: 1rem;
-    font-family: Arial, Helvetica, sans-serif;
+    
 }
 
 /* Body Styling */
 body {
     background-color: #000;
     color: #fff;
+    font-size: 1.1rem;         /* Slightly bigger text */
+    line-height: 1.6;          /* More space between lines */
+    font-family: Verdana, Tahoma, sans-serif; /* Easier-to-read font */
 }
 
 /* Main Layout */
@@ -45,6 +47,8 @@ input,
 button {
     border-radius: 10px;
     padding: 0.5rem;
+    font-size: 1.1rem; 
+    font-family: Verdana, Tahoma, sans-serif;
 }
 
 /* Chat Display */
@@ -65,16 +69,24 @@ button {
 
 /* Highlighted Names */
 .highlight-name {
-    color: #ffcc00; /* Bright yellow for names */
+    color: blue;
     font-weight: bold;
 }
 
+/* Highlighted Attributes (like adjectives) */
+.highlight-attribute {
+    color: green;
+    font-style: italic;
+}
+
+
 /* Post Styling */
 .post {
-    background-color: #eee;
+    background-color: #eeeeee; /* Light gray for easy readability */
+    color: #000000;
     border-radius: 10px;
     padding: 0 0 0.25rem;
-    margin: 0.5rem;
+    margin: 1rem 0; /* Adds vertical space between messages */
     overflow: hidden;
     flex-shrink: 0;
 }
@@ -118,7 +130,7 @@ button {
 /* Post Text */
 .post__text {
     margin-top: 5px;
-    color: #333;
+    color: #333333;
     padding: 0.25rem 0.5rem;
 }
 
@@ -193,4 +205,57 @@ input[type="file"] {
 
 .suggestions button:hover {
     background: #f0f0f0;
+}
+
+
+/* Focus Mode ON Styles (ADHD-Focused) */
+body.focus-mode {
+    background-color: #111; /* Very dark gray for low stimulation */
+    color: #f2f2f2;
+}
+
+body.focus-mode .chat-display {
+    background-color: #1e1e1e; /* Charcoal gray */
+    border: 2px solid #444;
+}
+
+body.focus-mode .post {
+    background-color: #2a2a2a; /* Dark gray for message bubbles */
+    color: #ffffff;
+}
+
+body.focus-mode .post__text {
+    color: #f5f5f5;
+}
+
+body.focus-mode .highlight-name {
+    color: #4fc3f7; /* brigter blue*/
+}
+
+body.focus-mode .highlight-attribute {
+    color: #81c784; /* softer green*/
+}
+
+
+/* Focus Mode – Hide/Dim Distractions */
+body.focus-mode .user-list,
+body.focus-mode .room-list,
+body.focus-mode .activity,
+body.focus-mode #suggestions {
+    opacity: 0.2;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+body.focus-mode #suggestions {
+    display: none !important;
+}
+
+body.focus-mode .list-display {
+    filter: blur(1px);
+}
+
+body.focus-mode #focus-toggle {
+    background-color: #444;
+    color: #f2f2f2;
 }
