@@ -1,13 +1,46 @@
 const express = require('express');
 const { Server } = require('socket.io');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
 
 const PORT = process.env.PORT || 3000;
 const ADMIN = "Admin";
 
+const limiter = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 100,
+    message: "Too many requests, please try again later."
+})
+
+const allowedTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'image/webp',
+    'image/bmp',
+    'image/svg+xml',
+    'application/pdf',
+    'text/plain',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.ms-powerpoint',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    'application/zip',
+    'audio/mpeg',
+    'audio/wav',
+    'audio/ogg',
+    'audio/aac',
+    'video/mp4',
+    'video/webm',
+    'video/ogg',
+]
+
 const app = express();
 
 // Middleware
+app.use(limiter);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../public")));
 
@@ -101,10 +134,32 @@ function handleUserDisconnect(socket) {
 
 function handleMessage(socket, name, text, fileContent) {
     const room = getUser(socket.id)?.room;
+
     if (room) {
-        const message = buildMsg(name, text, fileContent);
-        io.to(room).emit('message', message);
+        // File size and type validation
+        const maxFileSize = 5 * 1024 * 1024; // 5 MB
+        if (fileContent) {    
+            // Decode the base64 file content
+            const fileBuffer = Buffer.from(fileContent.split(',')[1], 'base64');
+        
+
+            // Check file size
+            if (fileBuffer.length > maxFileSize) {
+                socket.emit('message', buildMsg(ADMIN, "File size exceeds the 5MB limit."));
+                return;
+            }
+        
+            // Check file type
+            const fileType = fileContent.split(';')[0].split(':')[1];
+            if (!allowedTypes.includes(fileType)) {
+                socket.emit('message', buildMsg(ADMIN, "Invalid file type. Please upload a valid file."));
+                return;
+            }
+        }
     }
+
+    const message = buildMsg(name, text, fileContent);
+    io.to(room).emit('message', message);
 }
 
 function handleActivity(socket, name) {

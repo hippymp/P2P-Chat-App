@@ -11,6 +11,31 @@ const roomList = document.querySelector('.room-list');
 const chatDisplay = document.querySelector('.chat-display');
 const suggestionsContainer = document.querySelector('#suggestions');
 
+const allowedTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'image/webp',
+    'image/bmp',
+    'image/svg+xml',
+    'application/pdf',
+    'text/plain',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.ms-powerpoint',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    'application/zip',
+    'audio/mpeg',
+    'audio/wav',
+    'audio/ogg',
+    'audio/aac',
+    'video/mp4',
+    'video/webm',
+    'video/ogg',
+]
+
 // Import nspell for spell-checking
 import nspell from 'https://cdn.skypack.dev/nspell';
 
@@ -126,22 +151,29 @@ function enterRoom(e) {
 
 function uploadFile(e) {
     const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (event) {
-            console.log("File content being sent:", event.target.result);
-            // Emit the file content as a message
-            socket.emit('message', {
-                name: nameInput.value,
-                text: `Uploaded file: ${file.name}`,
-                fileContent: event.target.result // Base64 encoded file content
-            });
+    const maxFileSize = 5 * 1024 * 1024; // 5MB
 
-            // Clear the file input after upload
-            e.target.value = "";
-        };
-        reader.readAsDataURL(file);
+    if (file.size > maxFileSize) {
+        alert("File size exceeds the 5MB limit.");
+        e.target.value = "";
+        return;
     }
+
+    if (!allowedTypes.includes(file.type)) {
+        alert("Invalid file type. Please upload a valid file.");
+        e.target.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        socket.emit('message', {
+            name: nameInput.value,
+            text: `Uploaded file: ${file.name}`,
+            fileContent: event.target.result
+        })
+    }
+    reader.readAsDataURL(file);
 }
 
 // Socket.IO Event Handlers

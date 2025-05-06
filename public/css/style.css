@@ -181,7 +181,7 @@ input[type="file"] {
     padding: 0.5rem;
     max-width: 300px;
     z-index: 1000;
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     gap: 0.5rem; 
     overflow-x: hidden; 
