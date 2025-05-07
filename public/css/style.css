@@ -240,16 +240,13 @@ body.focus-mode .highlight-attribute {
 /* Focus Mode – Hide/Dim Distractions */
 body.focus-mode .user-list,
 body.focus-mode .room-list,
-body.focus-mode .activity,
-body.focus-mode #suggestions {
+body.focus-mode .activity {
     opacity: 0.2;
     transition: opacity 0.3s ease;
     pointer-events: none;
 }
 
-body.focus-mode #suggestions {
-    display: none !important;
-}
+
 
 body.focus-mode .list-display {
     filter: blur(1px);
